@@ -7,14 +7,14 @@ Et lille undervisningseksempel på en REST API end-to-end-test med:
 - Javalin
 - PostgreSQL
 - JDBC
-- HikariCP
+- HikariCP (databaseforbindelse)
 - JUnit 5
-- Rest Assured
+- Rest Assured (agerer HTTP-klient)
 - Testcontainers
 
 ## Hvad tester vi?
 
-Testen går gennem hele backend-kæden:
+Testen går gennem hele stacken, bortset fra UI:
 
 ```text
 Rest Assured
@@ -30,7 +30,6 @@ PersonMapper
 PostgreSQL (Testcontainer)
 ```
 
-PostgreSQL bliver altså **ikke mocked**.
 
 ## Forudsætninger
 
@@ -43,8 +42,6 @@ Du skal have:
 Du behøver ikke selv oprette eller starte en PostgreSQL-database.
 
 ## Kør i IntelliJ
-
-Åbn projektets `pom.xml` som Maven-projekt.
 
 Sørg for, at Docker kører.
 
@@ -70,7 +67,7 @@ Testens `setUp()`:
 4. starter Javalin på en ledig port
 5. fortæller Rest Assured, hvilken port Javalin bruger
 
-Testen indsætter derefter Peter Pan direkte gennem `PersonMapper`.
+Testen indsætter derefter Peter Pan direkte gennem `PersonMapper`. 
 
 Rest Assured kalder derefter REST-endpointet:
 
@@ -112,4 +109,3 @@ Bemærk forskellen mellem **setup** og det, der faktisk testes:
 - Controller og persistence-lag bruges af applikationen.
 - PostgreSQL er en rigtig database i en midlertidig container.
 
-Det gør eksemplet velegnet til at diskutere integrationstest kontra REST API end-to-end-test.
